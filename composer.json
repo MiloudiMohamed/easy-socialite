@@ -1,0 +1,41 @@
+{
+    "name": "devmi/easy-socialite",
+    "description": "Easy socialite setup for laravel",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "socialite",
+        "easy-socialite"
+    ],
+    "require": {
+        "illuminate/support": "^5.7",
+        "php": "^7.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mohamed Miloudi",
+            "email": "milou0104@gmail.com",
+            "homepage": "https://miloudi.io",
+            "role": "Developer"
+        },
+        {
+            "name": "Bedrani Sidali",
+            "email": "bedrani.sidali.94@gmail.com",
+            "homepage": "https://github.com/bboysidou",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Devmi\\EasySocialite\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Devmi\\EasySocialite\\EasySocialiteServiceProvider"
+            ]
+        }
+    }
+}
