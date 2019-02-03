@@ -15,7 +15,7 @@ so make sure to install it first.
 
 From the command line navigate to your Laravel Project and run:
 
-`composer require devmi/easysocialite`
+`composer require devmi/easy-socialite`
 
 Then run your migration
 
