@@ -7,11 +7,6 @@
         "socialite",
         "easy-socialite"
     ],
-    "require": {
-        "illuminate/support": "^5.7",
-        "php": "^7.3"
-    },
-    "license": "MIT",
     "authors": [
         {
             "name": "Mohamed Miloudi",
@@ -26,11 +21,27 @@
             "role": "Developer"
         }
     ],
+    "require": {
+        "illuminate/support": "^5.7",
+        "php": "^7.1",
+        "laravel/socialite": "^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "orchestra/testbench": "^3.7",
+        "doctrine/dbal": "^2.9"
+    },
     "autoload": {
         "psr-4": {
             "Devmi\\EasySocialite\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Devmi\\EasySocialite\\Tests\\": "tests"
+        }
+    },
+    "license": "MIT",
     "extra": {
         "laravel": {
             "providers": [

@@ -1,5 +1,8 @@
 # Easy Socialite
 
+![](https://img.shields.io/packagist/l/devmi/easy-socialite.svg?style=flat)
+![](https://img.shields.io/packagist/v/devmi/easy-socialite.svg?colorB=green&style=flat)
+
 This package helps you to easily integrate your social media login and get started with
 
 It's never been easier
@@ -15,11 +18,14 @@ so make sure to install it first.
 
 From the command line navigate to your Laravel Project and run:
 
-`composer require devmi/easy-socialite`
+```bash
+composer require devmi/easy-socialite
+```
 
 Then run your migration
-
-`php artisan migrate`
+```bash
+php artisan migrate
+```
 
 > Note that the password column changed to be nullable on your users table
 
@@ -29,7 +35,7 @@ Finally use `Devmi\EasySocailite\EasySocialiteTrait` in your User Model
 
 Now all what you have to do is to make a request to `/login/{your-service}`
 
-By default **Github**, **Google**, **Twitter**, **Facebook** are activated by default, to de-activate or add a new service you need to publish the configuration file and modify it as your need
+By default **Github**, **Google**, **Twitter**, **Facebook** are activated, to de-activate or add a new service you need to publish the configuration file and modify it as your need
 
 After any new social account linked to your user a `Devmi\EasySocailite\SocialAccountLinked` event will be fired containing the following payload
 
@@ -42,9 +48,16 @@ So you can listen to the event and dispatch your listeners
 #### Publishing the configuration file
 From the command line navigate to your Laravel Project and run:
 
-`php artisan vendor:publish --tag=easysocialite`
+```bash
+php artisan vendor:publish --tag=easysocialite
+```
 
 The file will be placed under your `config` directory
+
+## Testing
+```bash
+vendor/bin/phpunit
+```
 
 ## Issues and Contribution
 If you run into any bug or problem please make sure to open an issue or create a pull request, Thanks!

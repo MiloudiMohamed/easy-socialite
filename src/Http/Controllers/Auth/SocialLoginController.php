@@ -3,11 +3,10 @@
 namespace Devmi\EasySocialite\Http\Controllers\Auth;
 
 use Auth;
-use App\User;
-use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use Devmi\EasySocialite\Models\UserSocial;
 use Devmi\EasySocialite\Events\SocialAccountLinked;
+use Devmi\EasySocialite\Http\Controllers\Controller;
 
 class SocialLoginController extends Controller
 {
@@ -41,27 +40,29 @@ class SocialLoginController extends Controller
         return redirect()->intended();
     }
 
-    protected function shouldCreateNewProvider(User $user, $provider)
+    protected function shouldCreateNewProvider($user, $provider)
     {
         return ! (bool) $user->social->where('provider', $provider)->count();
     }
 
     protected function getExistingUser($providerUser)
     {
-        return User::where('email', $providerUser->getEmail())->orWhereHas('social', function($builder) use ($providerUser) {
+        $user = config('easysocialite.model.path');
+        return (new $user)->where('email', $providerUser->getEmail())->orWhereHas('social', function($builder) use ($providerUser) {
             $builder->where('provider_id', $providerUser->getId());
         })->first();
     }
 
     protected function createNewUser($providerUser)
     {
-        return User::create([
+        $user = config('easysocialite.model.path');
+        return (new $user)->create([
             'email' => $providerUser->getEmail(),
             'name' => $providerUser->getName(),
         ]);
     }
 
-    protected function createNewProvider(User $user, $provider, $providerUser)
+    protected function createNewProvider($user, $provider, $providerUser)
     {
         $user->social()->create([
             'provider_id' => $providerUser->getId(),
