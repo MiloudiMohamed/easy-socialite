@@ -1,7 +1,6 @@
 <?php
 namespace Devmi\EasySocialite\Events;
 
-use App\User;
 use Illuminate\Queue\SerializesModels;
 
 class SocialAccountLinked
@@ -11,8 +10,7 @@ class SocialAccountLinked
     public $user;
     public $provider;
     public $providerUser;
-
-    public function __construct(User $user, $provider, $providerUser)
+    public function __construct($user, $provider, $providerUser)
     {
         $this->user = $user;
         $this->provider = $provider;

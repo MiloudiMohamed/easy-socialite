@@ -1,7 +1,9 @@
 <?php
 
 return [
-
+    /**
+     * Activated providers
+     */
     'providers' => [
         'github' => [
             'name' => 'GitHub',
@@ -18,7 +20,13 @@ return [
         'linkedin' => [
             'name' => 'Linkedin',
         ],
+    ],
 
+    /**
+     * User model path
+     */
+    'model' => [
+        'path' => 'App\User',
     ],
 
 ];

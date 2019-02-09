@@ -2,7 +2,6 @@
 
 namespace Devmi\EasySocialite\Models;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserSocial extends Model
@@ -13,6 +12,6 @@ class UserSocial extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(config('easysocialite.model.path'));
     }
 }
