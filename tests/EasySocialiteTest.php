@@ -2,12 +2,10 @@
 
 namespace Devmi\EasySocialite\Tests;
 
-
-
 use Mockery;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Event;
 use Devmi\EasySocialite\Tests\TestCase;
-use Devmi\EasySocialite\Models\UserSocial;
 use Devmi\EasySocialite\Tests\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Devmi\EasySocialite\Events\SocialAccountLinked;
@@ -15,6 +13,11 @@ use Devmi\EasySocialite\Events\SocialAccountLinked;
 class UserSocialTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $socialLoginRedirects = [
+        'github'   => 'https://github.com/login/oauth/authorize',
+        'twitter'  => 'https://api.twitter.com/oauth/authenticate'
+    ];
 
     /** @test */
     public function authenticated_user_cannot_access_logins_routes()
@@ -40,35 +43,36 @@ class UserSocialTest extends TestCase
     /** @test */
     public function it_calls_the_redirect_method_on_the_provider()
     {
+        $provider = 'github';
+
+        $providerMock = Mockery::mock('Laravel\Socialite\Contracts\Provider');
         $mockSocialite = Mockery::mock('Laravel\Socialite\Contracts\Factory');
+
         $this->app['Laravel\Socialite\Contracts\Factory'] = $mockSocialite;
 
-        $provider = Mockery::mock('Laravel\Socialite\Contacts\Provider');
+        $providerMock->shouldReceive('redirect')->once()->andReturn(new RedirectResponse($this->socialLoginRedirects[$provider]));
+        $mockSocialite->shouldReceive('driver')->with($provider)->once()->andReturn($providerMock);
 
-        $mockSocialite->shouldReceive('driver')
-            ->once()
-            ->andReturn($provider);
+        $response = $this->get("login/{$provider}")->assertStatus(302);
 
-        $provider->shouldReceive('redirect')
-            ->once()
-            ->andReturn();
-
-        $response = $this->get('/login/github');
-
+        $this->assertContains($this->socialLoginRedirects[$provider], $response->headers->get('Location'));
     }
 
     /** @test */
     public function it_store_the_user_and_its_social_account()
     {
+        $this->withoutExceptionHandling();
+
         $user = User::make([
             'id' => 1,
             'name' => 'adam',
             'email' => 'adam@example.com',
-        ]);
+            ]);
 
         $provider = 'github';
 
         $this->mockSocialite(123, $user->name, $user->email);
+
         $response = $this->get("/login/{$provider}/callback");
 
         $this->assertDatabaseHas('users', [
@@ -129,13 +133,10 @@ class UserSocialTest extends TestCase
         $mockSocialite = Mockery::mock('Laravel\Socialite\Contracts\Factory');
         $this->app['Laravel\Socialite\Contracts\Factory'] = $mockSocialite;
         $abstractUser = Mockery::mock('Laravel\Socialite\Two\User');
-        $abstractUser
-            ->shouldReceive('getId')
-            ->andReturn($id)
-            ->shouldReceive('getName')
-            ->andReturn($name)
-            ->shouldReceive('getEmail')
-            ->andReturn($email);
+
+        $abstractUser->shouldReceive('getId')->andReturn($id)
+        ->shouldReceive('getName')->andReturn($name)
+        ->shouldReceive('getEmail')->andReturn($email);
 
         $provider = Mockery::mock('Laravel\Socialite\Contract\Provider');
         $provider->shouldReceive('user')->once()->andReturn($abstractUser);

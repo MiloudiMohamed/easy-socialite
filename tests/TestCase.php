@@ -4,10 +4,8 @@ namespace Devmi\EasySocialite\Tests;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Devmi\EasySocialite\Tests\Controllers\LoginController;
 use Devmi\EasySocialite\Http\Controllers\Auth\SocialLoginController;
 use Devmi\EasySocialite\Http\Middlewares\AbortIfNotActivated;
 
@@ -31,9 +29,6 @@ class TestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-
-        // dd('ssssssssss');
-        // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
                 'driver'   => 'sqlite',
@@ -59,7 +54,7 @@ class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('easysocialite.model', [
-            'path' => 'App\User'
+            'path' => '\Devmi\EasySocialite\Tests\Models\User'
         ]);
     }
 
