@@ -29,7 +29,7 @@ php artisan migrate
 
 > Note that the password column changed to be nullable on your users table
 
-Finally use `Devmi\EasySocailite\EasySocialiteTrait` in your User Model
+Finally use `Devmi\EasySocailite\Traits\EasySocialiteTrait` in your User Model
 
 ## Usage
 
